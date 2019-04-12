@@ -1,8 +1,10 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-from riri.Finder import Finder
-from riri.Downloader import Downloader
-from riri.Post import Post
+from riri.finder import Finder
+from riri.downloader import Downloader
+from riri.post import Post
+from riri import api
+
 
 class TumblrFinder(Finder):
     def __init__(self, downloader, headless=False):
@@ -33,8 +35,9 @@ class TumblrFinder(Finder):
                 ralsei = Post(images, source)
                 self.process_post(ralsei)
 
+            # if we get this error, it's because there's no images in the post
             except NoSuchElementException:
-                self.logger.error("error extracting information from post {}".format(source))
+                # just continue
                 continue
 
             except StaleElementReferenceException:
@@ -52,3 +55,6 @@ class TumblrFinder(Finder):
 class TumblrDownloader(Downloader):
     def naming_function(self, url, source):
         return url[url.find("tumblr_"):]
+
+
+api._add_worker("tumblr", TumblrFinder, TumblrDownloader)

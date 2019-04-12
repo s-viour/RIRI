@@ -1,8 +1,8 @@
 from unittest import TestCase
 import glob
 import os
-from riri.Tumblr import TumblrDownloader
-from riri.Tumblr import TumblrFinder
+from riri.tumblr import TumblrDownloader
+from riri.tumblr import TumblrFinder
 
 
 class TestTumblr(TestCase):

@@ -1,8 +1,8 @@
 import os
 import time
 from unittest import TestCase
-from riri.Post import Post
-from riri.Downloader import Downloader
+from riri.post import Post
+from riri.downloader import Downloader
 
 
 class TestDownloader(TestCase):

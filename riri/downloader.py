@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from requests import RequestException
-from multiprocessing import Queue, Process, Lock
+from multiprocessing import Queue, Process
 
 
 class Downloader:
@@ -30,6 +30,8 @@ class Downloader:
         if percent <= 100:
             string = " [" + str(percent) + "%] [="
             bars = int(percent / 5)
+            # okay so looking back at this, iterator is declared twice
+            # should this even work properly?
             for iterator in range(0, bars):
                 string += "="
                 for iterator in range(0, (20 - bars)):

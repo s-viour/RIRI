@@ -1,5 +1,5 @@
 from unittest import TestCase
-from riri.Post import Post
+from riri.post import Post
 
 
 class TestPost(TestCase):
