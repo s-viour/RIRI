@@ -57,4 +57,4 @@ class TumblrDownloader(Downloader):
         return url[url.find("tumblr_"):]
 
 
-api._add_worker("tumblr", TumblrFinder, TumblrDownloader)
+api.add_worker("tumblr", TumblrFinder, TumblrDownloader)

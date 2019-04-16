@@ -4,3 +4,7 @@ class RIRIException(Exception):
 
 class InvalidFinderException(RIRIException):
     """There is no finder loaded with that name"""
+
+
+class WorkerAlreadyExistsException(RIRIException):
+    """Worker already exists in workers list"""
