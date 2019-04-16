@@ -7,7 +7,7 @@ from riri import api
 
 
 class TumblrFinder(Finder):
-    def __init__(self, downloader, headless=False):
+    def __init__(self, downloader, url=None, headless=False):
         super().__init__(downloader)
 
         options = webdriver.ChromeOptions()
@@ -16,8 +16,11 @@ class TumblrFinder(Finder):
 
         self.driver = webdriver.Chrome(options=options)
 
-        url = "https://www.tumblr.com/search/ralsei"
-        self.driver.get(url)
+        if not url:
+            self.url = "https://www.tumblr.com/search/ralsei"
+        else:
+            self.url = url
+        self.driver.get(self.url)
 
     def find(self):
         posts = self.driver.find_elements_by_tag_name("article")
