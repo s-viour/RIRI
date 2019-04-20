@@ -1,12 +1,11 @@
+import click
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-from riri.finder import Finder
-from riri.downloader import Downloader
-from riri.post import Post
-from riri import api
+
+import riri
 
 
-class TumblrFinder(Finder):
+class TumblrFinder(riri.Finder):
     def __init__(self, downloader, url=None, headless=False):
         super().__init__(downloader)
 
@@ -35,7 +34,7 @@ class TumblrFinder(Finder):
                 for i in range(0, len(images)):
                     images[i] = images[i].get_attribute("src")
 
-                ralsei = Post(images, source)
+                ralsei = riri.Post(images, source)
                 self.process_post(ralsei)
 
             # if we get this error, it's because there's no images in the post
@@ -55,9 +54,17 @@ class TumblrFinder(Finder):
         self.driver.execute_script(scroll_down_script)
 
 
-class TumblrDownloader(Downloader):
+class TumblrDownloader(riri.Downloader):
     def naming_function(self, url, source):
         return url[url.find("tumblr_"):]
 
 
-api.add_worker("tumblr", TumblrFinder, TumblrDownloader)
+riri.add_worker("tumblr", TumblrFinder, TumblrDownloader)
+
+
+@riri.finders.command("tumblr")
+@click.option("--cycles", "-c", default=1)
+@click.option("--url", "-u")
+@click.option("--headless", "-h", is_flag=True)
+def cmd_tumblr(cycles, url, headless):
+    riri.find("tumblr", cycles, url=url, headless=headless)

@@ -3,7 +3,7 @@ import logging
 
 class Finder:
     def __init__(self, downloader):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger("RIRI")
         self.downloader = downloader
 
     # method to be implemented by derivatives of this class

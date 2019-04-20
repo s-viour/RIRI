@@ -19,7 +19,7 @@ class Downloader:
         # this is the queue that the consumer takes from
         self.queue = Queue()
 
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger("RIRI")
 
     # method to be implemented by derivatives of this class
     # responsible for naming the files

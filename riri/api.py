@@ -1,11 +1,10 @@
 import logging
 from riri.exceptions import *
 
-
-# dictionary to store class references of the finders
+# dictionary to store class references of the workers
 _workers = {}
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("RIRI")
 
 
 def add_worker(name, finder, downloader):
@@ -33,6 +32,13 @@ def list_finders():
     for name in _workers:
         finders.append(name)
     return finders
+
+
+def finder_exists(name):
+    try:
+        get_worker_pair(name)
+    except InvalidFinderException:
+        return False
 
 
 def get_finder(name, *args, **kwargs):
