@@ -1,24 +1,23 @@
-import click
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+"""
+    riri.tumblr
 
+    This is a Finder module responsible for scraping images from Tumblr
+    using selenium. It does NOT use the Tumblr API.
+"""
+
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 import riri
 
 
-class TumblrFinder(riri.Finder):
-    def __init__(self, downloader, url=None, headless=False):
-        super().__init__(downloader)
-
-        options = webdriver.ChromeOptions()
-        if headless:
-            options.add_argument("--headless")
-
-        self.driver = webdriver.Chrome(options=options)
+class Tumblr(riri.Scraper):
+    def __init__(self, downloader, headless=False, url=None):
+        super().__init__(downloader=downloader, headless=headless)
 
         if not url:
             self.url = "https://www.tumblr.com/search/ralsei"
         else:
             self.url = url
+
         self.driver.get(self.url)
 
     def find(self):
@@ -46,12 +45,7 @@ class TumblrFinder(riri.Finder):
                 self.logger.error("error extracting images from post {}".format(source))
                 continue
 
-        scroll_down_script = """
-                window.scrollTo(0, document.body.scrollHeight);
-                var lenOfPage=document.body.scrollHeight;
-                return lenOfPage;
-                """
-        self.driver.execute_script(scroll_down_script)
+        self.scroll_down()
 
 
 class TumblrDownloader(riri.Downloader):
@@ -59,12 +53,7 @@ class TumblrDownloader(riri.Downloader):
         return url[url.find("tumblr_"):]
 
 
-riri.add_worker("tumblr", TumblrFinder, TumblrDownloader)
-
-
-@riri.finders.command("tumblr")
-@click.option("--cycles", "-c", default=1)
-@click.option("--url", "-u")
-@click.option("--headless", "-h", is_flag=True)
-def cmd_tumblr(cycles, url, headless):
-    riri.find("tumblr", cycles, url=url, headless=headless)
+riri.add_worker("tumblr", Tumblr, TumblrDownloader)
+riri.add_worker_option("tumblr", "--headless", is_flag=True)
+riri.add_worker_option("tumblr", "--url")
+riri.add_worker_help("tumblr", """retrieves images from Tumblr without an API key via browser""")

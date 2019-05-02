@@ -1,3 +1,11 @@
+"""
+    riri.cli
+
+    All the logic regarding the CLI, except for the
+    finders bootstrapping themselves into a command.
+"""
+
+
 import click
 import riri
 

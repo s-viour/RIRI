@@ -2,13 +2,13 @@ from unittest import TestCase
 import glob
 import os
 from riri.workers.tumblr import TumblrDownloader
-from riri.workers.tumblr import TumblrFinder
+from riri.workers.tumblr import Tumblr
 
 
 class TestTumblr(TestCase):
     def setUp(self):
         self.downloader = TumblrDownloader(".")
-        self.finder = TumblrFinder(self.downloader)
+        self.finder = Tumblr(self.downloader)
 
         self.downloader.start()
 

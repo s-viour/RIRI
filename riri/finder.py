@@ -1,3 +1,9 @@
+"""
+    riri.finder
+
+    Class module that holds the Finder class
+"""
+
 import logging
 
 

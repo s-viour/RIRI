@@ -22,10 +22,6 @@ class TestAPI(TestCase):
     def test_add_worker(self):
         self.assertEqual(_workers["test"], (TestFinder, TestDownloader))
 
-    def test_set_worker(self):
-        riri.set_worker("test", None, None)
-        self.assertEqual(_workers["test"], (None, None))
-
     def test_get_worker_pair(self):
         worker_pair = riri.get_worker_pair("test")
         self.assertEqual(worker_pair[0], TestFinder)
